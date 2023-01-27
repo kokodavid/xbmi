@@ -1,6 +1,6 @@
  import 'package:flutter/material.dart';
 
-import '../utlis/widget_utils.dart';
+import '../../utlis/widget_utils.dart';
 
 Widget _buildBottom(BuildContext context) {
     return Container(

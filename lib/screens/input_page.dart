@@ -1,5 +1,5 @@
 import 'package:bmiapp/screens/gender/gender_card.dart';
-import 'package:bmiapp/screens/weight_card.dart';
+import 'package:bmiapp/screens/weight/weight_card.dart';
 import 'package:flutter/material.dart';
 
 import '../utlis/widget_utils.dart';

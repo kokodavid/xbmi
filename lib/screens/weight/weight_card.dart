@@ -1,8 +1,9 @@
+import 'package:bmiapp/screens/weight/weight_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../utlis/widget_utils.dart';
-import 'card_title.dart';
+import '../../utlis/widget_utils.dart';
+import '../card_title.dart';
 
 class WeightCard extends StatefulWidget {
   const WeightCard({super.key});
@@ -36,8 +37,16 @@ class _WeightCardState extends State<WeightCard> {
   }
 
   Widget _drawSlider() {
-    return WeightBackground();
-  }
+  return WeightBackground(
+    child: LayoutBuilder(
+      builder: (context, constraints) => WeightSlider(
+            minValue: 30,
+            maxValue: 110,
+            width: constraints.maxWidth,
+          ),
+    ),
+  );
+}
 
 }
 
