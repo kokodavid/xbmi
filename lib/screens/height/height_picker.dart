@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../utlis/widget_utils.dart';
 import 'height_slider.dart';
+import 'dart:math' as math;
 
 class HeightPicker extends StatefulWidget {
   final int maxHeight;
@@ -28,6 +29,8 @@ class HeightPicker extends StatefulWidget {
 }
 
 class _HeightPickerState extends State<HeightPicker> {
+  double? startDragYOffset;
+  int? startDragHeight;
 
   double get _pixelsPerUnit {
     return _drawingHeight / widget.totalUnits;
@@ -50,12 +53,18 @@ class _HeightPickerState extends State<HeightPicker> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        _drawPersonImage(),
-        _drawSlider(),
-        _drawLabels(),
-      ],
+    return GestureDetector(
+       behavior: HitTestBehavior.translucent,
+      onTapDown: _onTapDown,
+      onVerticalDragStart: _onDragStart,
+      onVerticalDragUpdate: _onDragUpdate,
+      child: Stack(
+        children: <Widget>[
+          _drawPersonImage(),
+          _drawSlider(),
+          _drawLabels(),
+        ],
+      ),
     );
   }
 
@@ -66,6 +75,43 @@ class _HeightPickerState extends State<HeightPicker> {
       right: 0.0,
       bottom: _sliderPosition,
     );
+  }
+
+    _onDragStart(DragStartDetails dragStartDetails) {
+    int newHeight = _globalOffsetToHeight(dragStartDetails.globalPosition);
+    widget.onChange(newHeight);
+    setState(() {
+      startDragYOffset = dragStartDetails.globalPosition.dy;
+      startDragHeight = newHeight;
+    });
+  }
+
+   _onDragUpdate(DragUpdateDetails dragUpdateDetails) {
+    double currentYOffset = dragUpdateDetails.globalPosition.dy;
+    double verticalDifference = startDragYOffset! - currentYOffset;
+    int diffHeight = verticalDifference ~/ _pixelsPerUnit;
+    int height = _normalizeHeight(startDragHeight! + diffHeight);
+    setState(() => widget.onChange(height));
+  }
+
+
+
+    _onTapDown(TapDownDetails tapDownDetails) {
+    int height = _globalOffsetToHeight(tapDownDetails.globalPosition);
+    widget.onChange(_normalizeHeight(height));
+  }
+
+  int _normalizeHeight(int height) {
+    return math.max(widget.minHeight, math.min(widget.maxHeight, height));
+  }
+
+  int _globalOffsetToHeight(Offset globalOffset) {
+    RenderBox? getBox = context.findRenderObject() as RenderBox?;
+    Offset localPosition = getBox!.globalToLocal(globalOffset);
+    double dy = localPosition.dy;
+    dy = dy - marginTopAdapted(context) - labelsFontSize / 2;
+    int height = widget.maxHeight - (dy ~/ _pixelsPerUnit);
+    return height;
   }
 
    Widget _drawPersonImage() {
