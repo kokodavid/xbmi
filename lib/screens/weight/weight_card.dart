@@ -6,13 +6,25 @@ import '../../utlis/widget_utils.dart';
 import '../card_title.dart';
 
 class WeightCard extends StatefulWidget {
-  const WeightCard({super.key});
+  final int? initialWeight;
+
+  const WeightCard({super.key, this.initialWeight});
 
   @override
   _WeightCardState createState() => _WeightCardState();
 }
 
+
+
 class _WeightCardState extends State<WeightCard> {
+
+  int? weight;
+  @override
+  void initState() {
+    weight = widget.initialWeight ?? 70;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -36,14 +48,20 @@ class _WeightCardState extends State<WeightCard> {
     );
   }
 
-  Widget _drawSlider() {
+Widget _drawSlider() {
   return WeightBackground(
     child: LayoutBuilder(
-      builder: (context, constraints) => WeightSlider(
-            minValue: 30,
-            maxValue: 110,
-            width: constraints.maxWidth,
-          ),
+      builder: (context, constraints) {
+        return constraints.isTight
+            ? Container()
+            : WeightSlider(
+                minValue: 30,
+                maxValue: 110,
+                value: weight!,
+                onChanged: (val) => setState(() => weight = val),
+                width: constraints.maxWidth,
+              );
+      },
     ),
   );
 }

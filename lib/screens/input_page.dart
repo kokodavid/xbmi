@@ -1,4 +1,5 @@
 import 'package:bmiapp/screens/gender/gender_card.dart';
+import 'package:bmiapp/screens/height/height_card.dart';
 import 'package:bmiapp/screens/weight/weight_card.dart';
 import 'package:flutter/material.dart';
 
@@ -57,10 +58,11 @@ class InputPage extends StatelessWidget {
               children: const <Widget>[
                 Expanded(child: GenderCard()),
                 Expanded(child: WeightCard()),
+                
               ],
             ),
           ),
-          Expanded(child: _tempCard("Height"))
+          const Expanded(child: HeightCard()),
         ],
       ),
     );
