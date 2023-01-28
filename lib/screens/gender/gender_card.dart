@@ -8,8 +8,10 @@ import 'dart:math' as math;
 
 class GenderCard extends StatefulWidget {
   final Gender? initialGender;
+  final ValueChanged<Gender> onChanged;
 
-  const GenderCard({Key? key, this.initialGender}) : super(key: key);
+  const GenderCard({Key? key, this.initialGender, required this.onChanged})
+      : super(key: key);
 
   @override
   State<GenderCard> createState() => _GenderCardState();
@@ -48,20 +50,22 @@ class _GenderCardState extends State<GenderCard>
   @override
   Widget build(BuildContext context) {
     return Card(
+      margin: EdgeInsets.only(
+        left: screenAwareSize(16.0, context),
+        right: screenAwareSize(4.0, context),
+        bottom: screenAwareSize(4.0, context),
+      ),
       child: SizedBox(
         width: double.infinity,
-        child: Padding(
-          padding: EdgeInsets.only(top: screenAwareSize(5.0, context)),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              const CardTitle("GENDER"),
-              Padding(
-                padding: EdgeInsets.only(top: screenAwareSize(16.0, context)),
-                child: _drawMainStack(),
-              )
-            ],
-          ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            const CardTitle("GENDER"),
+            Padding(
+              padding: EdgeInsets.only(top: screenAwareSize(16.0, context)),
+              child: _drawMainStack(),
+            )
+          ],
         ),
       ),
     );
@@ -104,7 +108,7 @@ class _GenderCardState extends State<GenderCard>
   }
 
   void _setSelectedGender(Gender gender) {
-    setState(() => selectedGender = gender);
+    widget.onChanged(gender);
     _arrowAnimationController!.animateTo(
       _genderAngles[gender]!,
       duration: const Duration(milliseconds: 150),
@@ -128,7 +132,7 @@ class GenderIconTranslated extends StatelessWidget {
   String? get _assetName => _genderImages[gender];
 
   double _iconSize(BuildContext context) {
-    return screenAwareSize(_isOtherGender ? 22.0 : 16.0, context);
+    return screenAwareSize(_isOtherGender ? 18.0 : 14.0, context);
   }
 
   double _genderLeftPadding(BuildContext context) {
@@ -177,7 +181,7 @@ class GenderIconTranslated extends StatelessWidget {
   }
 }
 
-double _circleSize(BuildContext context) => screenAwareSize(80.0, context);
+double _circleSize(BuildContext context) => screenAwareSize(65.0, context);
 
 class GenderCircle extends StatelessWidget {
   const GenderCircle({super.key});

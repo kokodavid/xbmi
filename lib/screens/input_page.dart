@@ -1,3 +1,4 @@
+import 'package:bmiapp/screens/gender/gender.dart';
 import 'package:bmiapp/screens/gender/gender_card.dart';
 import 'package:bmiapp/screens/height/height_card.dart';
 import 'package:bmiapp/screens/weight/weight_card.dart';
@@ -6,8 +7,19 @@ import 'package:flutter/material.dart';
 import '../utlis/app_bar.dart';
 import '../utlis/widget_utils.dart';
 import 'input_page_styles.dart';
+import 'input_summary_card.dart';
 
-class InputPage extends StatelessWidget {
+class InputPage extends StatefulWidget {
+  @override
+  State<InputPage> createState() => _InputPageState();
+}
+
+class _InputPageState extends State<InputPage> {
+
+  Gender gender = Gender.other;
+  int height = 170;
+  int weight = 70;
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
@@ -18,6 +30,11 @@ class InputPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            InputSummaryCard(
+            gender: gender,
+            weight: weight,
+            height: height,
+          ),
             Expanded(child: _buildCards(context)),
             _buildBottom(context),
           ],
@@ -25,6 +42,7 @@ class InputPage extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildBottom(BuildContext context) {
     return Container(
       alignment: Alignment.center,
@@ -45,25 +63,30 @@ class InputPage extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: Column(
-              children: const <Widget>[
-                Expanded(child: GenderCard()),
-                Expanded(child: WeightCard()),
+              children:  <Widget>[
+                Expanded(child: GenderCard(
+                  initialGender: gender,
+                  onChanged: (val) => setState(() => gender = val),
+
+                )),
+                Expanded(
+                  child: WeightCard(
+        weight: weight,
+        onChanged: (val) => setState(() => weight = val),
+      ),
+                  ),
               ],
             ),
           ),
-          const Expanded(child: HeightCard()),
+           Expanded(
+            child: HeightCard(
+           height: height,
+            onChanged: (val) => setState(() => height = val),
+      ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _tempCard(String label) {
-    return Card(
-      child: Container(
-        width: double.infinity,
-        height: double.infinity,
-        child: Text(label),
-      ),
-    );
-  }
 }
