@@ -1,7 +1,9 @@
 import 'package:bmiapp/screens/height/height_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../utlis/widget_utils.dart';
+import 'height_slider.dart';
 
 class HeightPicker extends StatefulWidget {
   final int maxHeight;
@@ -26,12 +28,55 @@ class HeightPicker extends StatefulWidget {
 }
 
 class _HeightPickerState extends State<HeightPicker> {
+
+  double get _pixelsPerUnit {
+    return _drawingHeight / widget.totalUnits;
+  }
+
+   double get _sliderPosition {
+    double halfOfBottomLabel = labelsFontSize / 2;
+    int unitsFromBottom = widget.height - widget.minHeight;
+    return halfOfBottomLabel + unitsFromBottom * _pixelsPerUnit;
+  }
+
+   double get _drawingHeight {
+    double totalHeight = widget.widgetHeight;
+    double marginBottom = marginBottomAdapted(context);
+    double marginTop = marginTopAdapted(context);
+    return totalHeight - (marginBottom + marginTop + labelsFontSize);
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
+        _drawPersonImage(),
+        _drawSlider(),
         _drawLabels(),
       ],
+    );
+  }
+
+  Widget _drawSlider() {
+    return Positioned(
+      child: HeightSlider(height: widget.height),
+      left: 0.0,
+      right: 0.0,
+      bottom: _sliderPosition,
+    );
+  }
+
+   Widget _drawPersonImage() {
+    double personImageHeight = _sliderPosition + marginBottomAdapted(context);
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: SvgPicture.asset(
+        "images/person.svg",
+        height: personImageHeight,
+        width: personImageHeight / 3,
+      ),
     );
   }
 
