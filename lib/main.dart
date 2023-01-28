@@ -4,16 +4,17 @@ import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // Firebase.initializeApp();
-  // await FirebaseAppCheck.instance
-  //     // Your personal reCaptcha public key goes here:
-  //     .activate(
-  //   androidProvider: AndroidProvider.debug,
-  //   webRecaptchaSiteKey: 'kWebRecaptchaSiteKey',
-  // );
   SystemChrome.setPreferredOrientations(
           [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
       .then((_) => runApp(MyApp()));
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.white, //top bar color
+      statusBarIconBrightness: Brightness.dark, //top bar icons
+      systemNavigationBarColor: Colors.white, //bottom bar color
+      systemNavigationBarIconBrightness: Brightness.dark, //bottom bar icons
+    )
+  );     
 }
 
 class MyApp extends StatelessWidget {

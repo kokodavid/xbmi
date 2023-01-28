@@ -9,7 +9,6 @@ import 'dart:math' as math;
 class GenderCard extends StatefulWidget {
   final Gender? initialGender;
 
-
   const GenderCard({Key? key, this.initialGender}) : super(key: key);
 
   @override
@@ -23,16 +22,15 @@ const Map<Gender, double> _genderAngles = {
   Gender.male: _defaultGenderAngle,
 };
 
-class _GenderCardState extends State<GenderCard> with SingleTickerProviderStateMixin {
+class _GenderCardState extends State<GenderCard>
+    with SingleTickerProviderStateMixin {
   Gender? selectedGender;
-  AnimationController? _arrowAnimationController; 
-
-
+  AnimationController? _arrowAnimationController;
 
   @override
   void initState() {
     selectedGender = widget.initialGender ?? Gender.other;
-    _arrowAnimationController = AnimationController( 
+    _arrowAnimationController = AnimationController(
       vsync: this,
       lowerBound: -_defaultGenderAngle,
       upperBound: _defaultGenderAngle,
@@ -53,7 +51,7 @@ class _GenderCardState extends State<GenderCard> with SingleTickerProviderStateM
       child: SizedBox(
         width: double.infinity,
         child: Padding(
-          padding: EdgeInsets.only(top: screenAwareSize(8.0, context)),
+          padding: EdgeInsets.only(top: screenAwareSize(5.0, context)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -76,11 +74,10 @@ class _GenderCardState extends State<GenderCard> with SingleTickerProviderStateM
         alignment: Alignment.bottomCenter,
         children: <Widget>[
           _drawCircleIndicator(),
-             const GenderIconTranslated(gender: Gender.female),
-             const GenderIconTranslated(gender: Gender.other),
-             const GenderIconTranslated(gender: Gender.male),
-           _drawGestureDetector(),   
-
+          const GenderIconTranslated(gender: Gender.female),
+          const GenderIconTranslated(gender: Gender.other),
+          const GenderIconTranslated(gender: Gender.male),
+          _drawGestureDetector(),
         ],
       ),
     );
@@ -89,14 +86,16 @@ class _GenderCardState extends State<GenderCard> with SingleTickerProviderStateM
   Widget _drawCircleIndicator() {
     return Stack(
       alignment: Alignment.center,
-      children:  <Widget>[
+      children: <Widget>[
         const GenderCircle(),
-         GenderArrow(listenable: _arrowAnimationController!,),
+        GenderArrow(
+          listenable: _arrowAnimationController!,
+        ),
       ],
     );
   }
 
-   _drawGestureDetector() {
+  _drawGestureDetector() {
     return Positioned.fill(
       child: TapHandler(
         onGenderTapped: _setSelectedGender,
@@ -104,14 +103,13 @@ class _GenderCardState extends State<GenderCard> with SingleTickerProviderStateM
     );
   }
 
-    void _setSelectedGender(Gender gender) {
+  void _setSelectedGender(Gender gender) {
     setState(() => selectedGender = gender);
-    _arrowAnimationController!.animateTo( 
+    _arrowAnimationController!.animateTo(
       _genderAngles[gender]!,
       duration: const Duration(milliseconds: 150),
     );
   }
-
 }
 
 class GenderIconTranslated extends StatelessWidget {
@@ -217,12 +215,13 @@ class GenderLine extends StatelessWidget {
 }
 
 class GenderArrow extends AnimatedWidget {
-
-  const GenderArrow({Key? key,required Listenable listenable}) : super(key: key, listenable: listenable);
+  const GenderArrow({Key? key, required Listenable listenable})
+      : super(key: key, listenable: listenable);
 
   double _arrowLength(BuildContext context) => screenAwareSize(32.0, context);
 
-  double _translationOffset(BuildContext context) => _arrowLength(context) * -0.4;
+  double _translationOffset(BuildContext context) =>
+      _arrowLength(context) * -0.4;
 
   @override
   Widget build(BuildContext context) {
@@ -241,7 +240,7 @@ class GenderArrow extends AnimatedWidget {
         ),
       ),
     );
-  } 
+  }
 }
 
 class TapHandler extends StatelessWidget {
@@ -254,9 +253,13 @@ class TapHandler extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
-        Expanded(child: GestureDetector(onTap: () => onGenderTapped!(Gender.female))),
-        Expanded(child: GestureDetector(onTap: () => onGenderTapped!(Gender.other))),
-        Expanded(child: GestureDetector(onTap: () => onGenderTapped!(Gender.male))),
+        Expanded(
+            child:
+                GestureDetector(onTap: () => onGenderTapped!(Gender.female))),
+        Expanded(
+            child: GestureDetector(onTap: () => onGenderTapped!(Gender.other))),
+        Expanded(
+            child: GestureDetector(onTap: () => onGenderTapped!(Gender.male))),
       ],
     );
   }

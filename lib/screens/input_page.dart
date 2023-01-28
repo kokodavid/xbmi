@@ -3,17 +3,21 @@ import 'package:bmiapp/screens/height/height_card.dart';
 import 'package:bmiapp/screens/weight/weight_card.dart';
 import 'package:flutter/material.dart';
 
+import '../utlis/app_bar.dart';
 import '../utlis/widget_utils.dart';
+import 'input_page_styles.dart';
 
 class InputPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(appBarHeight(context)),
+          child: BmiAppBar()),
       body: Padding(
         padding: MediaQuery.of(context).padding,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            _buildTitle(context),
             Expanded(child: _buildCards(context)),
             _buildBottom(context),
           ],
@@ -21,20 +25,6 @@ class InputPage extends StatelessWidget {
       ),
     );
   }
-
-  Widget _buildTitle(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: 24.0,
-        top: screenAwareSize(56.0, context),
-      ),
-      child: Text(
-        "BMI",
-        style: new TextStyle(fontSize: 28.0, fontWeight: FontWeight.bold),
-      ),
-    );
-  }
-
   Widget _buildBottom(BuildContext context) {
     return Container(
       alignment: Alignment.center,
@@ -58,7 +48,6 @@ class InputPage extends StatelessWidget {
               children: const <Widget>[
                 Expanded(child: GenderCard()),
                 Expanded(child: WeightCard()),
-                
               ],
             ),
           ),
