@@ -1,4 +1,4 @@
-package com.example.bmiapp
+package com.giglab.bmiapp
 
 import io.flutter.embedding.android.FlutterActivity
 
