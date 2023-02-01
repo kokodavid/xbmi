@@ -49,30 +49,39 @@ class _GenderCardState extends State<GenderCard>
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.only(
-        left: screenAwareSize(16.0, context),
-        right: screenAwareSize(4.0, context),
-        bottom: screenAwareSize(4.0, context),
-      ),
-      child: SizedBox(
-        width: double.infinity,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            const CardTitle("GENDER"),
-            Padding(
-              padding: EdgeInsets.only(top: screenAwareSize(16.0, context)),
-              child: _drawMainStack(),
-            )
-          ],
-        ),
+    return Container(
+      alignment: Alignment.bottomCenter,
+      child: Column(
+        children: [
+          Card(
+            margin: EdgeInsets.only(
+              left: screenAwareSize(16.0, context),
+              right: screenAwareSize(16.0, context),
+              bottom: screenAwareSize(16.0, context),
+            ),
+            child: SizedBox(
+              width: double.infinity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  const CardTitle(title: "SELECT GENDER"),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        top: screenAwareSize(16.0, context),
+                        bottom: screenAwareSize(16.0, context)),
+                    child: _drawMainStack(),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
   Widget _drawMainStack() {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Stack(
         alignment: Alignment.bottomCenter,
@@ -88,12 +97,16 @@ class _GenderCardState extends State<GenderCard>
   }
 
   Widget _drawCircleIndicator() {
-    return Stack(
-      alignment: Alignment.center,
-      children: <Widget>[
-        const GenderCircle(),
-        GenderArrow(
-          listenable: _arrowAnimationController!,
+    return Column(
+      children: [
+        Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            const GenderCircle(),
+            GenderArrow(
+              listenable: _arrowAnimationController!,
+            ),
+          ],
         ),
       ],
     );
@@ -132,7 +145,7 @@ class GenderIconTranslated extends StatelessWidget {
   String? get _assetName => _genderImages[gender];
 
   double _iconSize(BuildContext context) {
-    return screenAwareSize(_isOtherGender ? 18.0 : 14.0, context);
+    return screenAwareSize(_isOtherGender ? 20.0 : 17.0, context);
   }
 
   double _genderLeftPadding(BuildContext context) {
@@ -181,7 +194,7 @@ class GenderIconTranslated extends StatelessWidget {
   }
 }
 
-double _circleSize(BuildContext context) => screenAwareSize(65.0, context);
+double _circleSize(BuildContext context) => screenAwareSize(85.0, context);
 
 class GenderCircle extends StatelessWidget {
   const GenderCircle({super.key});

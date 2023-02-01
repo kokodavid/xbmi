@@ -23,7 +23,7 @@ class WeightCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          CardTitle("WEIGHT", subtitle: "(kg)"),
+          CardTitle(title:"WEIGHT", subtitle: "(kg)"),
           Expanded(
             child: Center(
               child: Padding(

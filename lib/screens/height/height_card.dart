@@ -21,7 +21,7 @@ class HeightCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          const CardTitle("HEIGHT", subtitle: "(cm)"),
+          const CardTitle(title:"HEIGHT", subtitle: "(cm)"),
           Expanded(
             child: Padding(
               padding: EdgeInsets.only(bottom: screenAwareSize(8.0, context)),

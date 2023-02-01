@@ -4,11 +4,11 @@ import '../utlis/widget_utils.dart';
 import 'gender/gender.dart';
 
 class InputSummaryCard extends StatelessWidget {
-  final Gender gender;
-  final int height;
-  final int weight;
+  final Gender? gender;
+  final int? height;
+  final int? weight;
 
-  const InputSummaryCard({Key? key, required this.gender, required this.height, required this.weight})
+  const InputSummaryCard({Key? key,  this.gender, this.height, this.weight})
       : super(key: key);
 
   @override

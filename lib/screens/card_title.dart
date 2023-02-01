@@ -15,10 +15,10 @@ const TextStyle _subtitleStyle = TextStyle(
 );
 
 class CardTitle extends StatelessWidget {
-  final String title;
+  final String? title;
   final String? subtitle;
 
-  const CardTitle(this.title, {Key? key, this.subtitle}) : super(key: key);
+  const CardTitle({Key? key, this.subtitle,this.title, }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class CardTitle extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
-                title,
+                title!,
                 style: _titleStyle,
               ),
               Text(

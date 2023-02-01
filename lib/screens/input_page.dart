@@ -15,7 +15,6 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
-
   Gender gender = Gender.other;
   int height = 170;
   int weight = 70;
@@ -31,10 +30,10 @@ class _InputPageState extends State<InputPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             InputSummaryCard(
-            gender: gender,
-            weight: weight,
-            height: height,
-          ),
+              gender: gender,
+              weight: weight,
+              height: height,
+            ),
             Expanded(child: _buildCards(context)),
             _buildBottom(context),
           ],
@@ -63,30 +62,29 @@ class _InputPageState extends State<InputPage> {
         children: <Widget>[
           Expanded(
             child: Column(
-              children:  <Widget>[
-                Expanded(child: GenderCard(
+              children: <Widget>[
+                Expanded(
+                    child: GenderCard(
                   initialGender: gender,
                   onChanged: (val) => setState(() => gender = val),
-
                 )),
                 Expanded(
                   child: WeightCard(
-        weight: weight,
-        onChanged: (val) => setState(() => weight = val),
-      ),
+                    weight: weight,
+                    onChanged: (val) => setState(() => weight = val),
                   ),
+                ),
               ],
             ),
           ),
-           Expanded(
+          Expanded(
             child: HeightCard(
-           height: height,
-            onChanged: (val) => setState(() => height = val),
-      ),
+              height: height,
+              onChanged: (val) => setState(() => height = val),
+            ),
           ),
         ],
       ),
     );
   }
-
 }
