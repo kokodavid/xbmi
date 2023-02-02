@@ -54,11 +54,7 @@ class _GenderCardState extends State<GenderCard>
       child: Column(
         children: [
           Card(
-            margin: EdgeInsets.only(
-              left: screenAwareSize(16.0, context),
-              right: screenAwareSize(16.0, context),
-              bottom: screenAwareSize(16.0, context),
-            ),
+            margin: EdgeInsets.all(screenAwareSize(10.0, context)),
             child: SizedBox(
               width: double.infinity,
               child: Column(

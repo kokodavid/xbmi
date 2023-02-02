@@ -1,4 +1,5 @@
 import 'package:bmiapp/screens/gender/gender.dart';
+import 'package:bmiapp/screens/weight/weight_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../utlis/widget_utils.dart';
@@ -25,38 +26,58 @@ class _GenderPageState extends State<GenderPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 GenderCard(
                   initialGender: gender,
                   onChanged: (val) => setState(() => gender = val),
                 ),
-                Row(
-                  children: [
-                    Card(
-                      margin: EdgeInsets.all(screenAwareSize(10.0, context)),
-                      child: Container(
-                          margin:
-                              EdgeInsets.all(screenAwareSize(10.0, context)),
-                          child: Center(
-                            child: _genderText(),
-                          )),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Padding(
-                        padding: EdgeInsets.all(screenAwareSize(10.0, context)),
-                        child: const Text(
-                          "Next",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 17),
-                        ),
+                Container(
+                  margin: EdgeInsets.all(screenAwareSize(15.0, context)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        children: [
+                          Text("Selected Gender:"),
+                          Card(
+                            child: Container(
+                                margin: EdgeInsets.all(
+                                    screenAwareSize(10.0, context)),
+                                child: Center(
+                                  child: _genderText(),
+                                )),
+                          ),
+                        ],
                       ),
-                    )
-                  ],
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const WeightPage()),
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Padding(
+                            padding:
+                                EdgeInsets.all(screenAwareSize(10.0, context)),
+                            child: const Text(
+                              "Next",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 17),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 )
               ],
             )
