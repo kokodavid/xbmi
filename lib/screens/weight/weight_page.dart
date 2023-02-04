@@ -11,6 +11,7 @@ class WeightPage extends StatefulWidget {
 class _WeightPageState extends State<WeightPage> {
   int weight = 70;
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
