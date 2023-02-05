@@ -56,7 +56,7 @@ class _GenderPageState extends State<GenderPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const WeightPage()),
+                                builder: (context) => WeightPage()),
                           );
                         },
                         child: Container(
