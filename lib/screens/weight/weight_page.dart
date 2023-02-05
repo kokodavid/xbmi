@@ -29,7 +29,7 @@ class _WeightPageState extends State<WeightPage> {
           SizedBox(
               height: 250,
               child: WeightCard(
-                onChanged: (val) => setState(() => weight = val),
+                onChanged: (val) => setState(() => weight = val,),weight: weight!,
               ))
         ],
       ),

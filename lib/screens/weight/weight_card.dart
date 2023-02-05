@@ -9,7 +9,7 @@ class WeightCard extends StatelessWidget {
   final int weight;
   final ValueChanged<int>? onChanged;
 
-  const WeightCard({Key? key, this.weight = 70, this.onChanged})
+  const WeightCard({Key? key,required this.weight, this.onChanged})
       : super(key: key);
 
   @override
