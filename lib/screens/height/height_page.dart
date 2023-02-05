@@ -1,6 +1,8 @@
 import 'package:bmiapp/screens/height/height_card.dart';
 import 'package:flutter/material.dart';
 
+import '../../utlis/widget_utils.dart';
+
 class HeightPage extends StatefulWidget {
   HeightPage({super.key});
 
@@ -36,6 +38,50 @@ class _HeightPageState extends State<HeightPage> {
                   ),
                   height: height!,
                 )),
+            Container(
+              margin: EdgeInsets.all(screenAwareSize(15.0, context)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      const Text("Selected Weight:"),
+                      Card(
+                        child: Container(
+                            margin:
+                                EdgeInsets.all(screenAwareSize(10.0, context)),
+                            child: Center(
+                              child: Text("${height}kg"),
+                            )),
+                      ),
+                    ],
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HeightPage()),
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Padding(
+                        padding: EdgeInsets.all(screenAwareSize(10.0, context)),
+                        child: const Text(
+                          "Calculate BMI",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            )
           ],
         ),
       ),
