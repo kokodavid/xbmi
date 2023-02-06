@@ -32,54 +32,55 @@ class _WeightPageState extends State<WeightPage> {
           SizedBox(
               height: 250,
               child: WeightCard(
-                onChanged: (val) => setState(() => weight = val,),weight: weight!,
+                onChanged: (val) => setState(
+                  () => weight = val,
+                ),
+                weight: weight!,
               )),
           Container(
-                  margin: EdgeInsets.all(screenAwareSize(15.0, context)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        children: [
-                          const Text("Selected Weight:"),
-                          Card(
-                            child: Container(
-                                margin: EdgeInsets.all(
-                                    screenAwareSize(10.0, context)),
-                                child: Center(
-                                  child: Text("${weight}kg"),
-                                )),
-                          ),
-                        ],
+            margin: EdgeInsets.all(screenAwareSize(15.0, context)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  children: [
+                    const Text("Selected Weight:"),
+                    Card(
+                      child: Container(
+                          margin:
+                              EdgeInsets.all(screenAwareSize(10.0, context)),
+                          child: Center(
+                            child: Text("${weight} kg"),
+                          )),
+                    ),
+                  ],
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HeightPage()),
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: EdgeInsets.all(screenAwareSize(10.0, context)),
+                      child: const Text(
+                        "Next",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HeightPage()),
-                          );
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.blue,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Padding(
-                            padding:
-                                EdgeInsets.all(screenAwareSize(10.0, context)),
-                            child: const Text(
-                              "Next",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 17),
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
+                    ),
                   ),
-                )    
+                )
+              ],
+            ),
+          )
         ],
       ),
     );

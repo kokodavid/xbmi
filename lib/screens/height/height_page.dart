@@ -51,7 +51,7 @@ class _HeightPageState extends State<HeightPage> {
                             margin:
                                 EdgeInsets.all(screenAwareSize(10.0, context)),
                             child: Center(
-                              child: Text("${height}kg"),
+                              child: Text("${height} cm"),
                             )),
                       ),
                     ],
