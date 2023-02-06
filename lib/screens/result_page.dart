@@ -115,7 +115,7 @@ class _ResultPageState extends State<ResultPage> {
             ),
           ),
           Container(
-            child: Text(result.toString()),
+            child: _textResult("${result.toString()} KG/m2"),
           )
         ],
       ),
@@ -134,6 +134,17 @@ class _ResultPageState extends State<ResultPage> {
       style: const TextStyle(
         color: Colors.black,
         fontSize: 26.0,
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+
+  Widget _textResult(String text) {
+    return Text(
+      text,
+      style: const TextStyle(
+        color: Colors.black,
+        fontSize: 60.0,
       ),
       textAlign: TextAlign.center,
     );
