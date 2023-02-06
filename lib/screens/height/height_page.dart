@@ -1,5 +1,7 @@
 import 'package:bmiapp/screens/height/height_card.dart';
+import 'package:bmiapp/screens/result_page.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utlis/widget_utils.dart';
 
@@ -51,16 +53,18 @@ class _HeightPageState extends State<HeightPage> {
                             margin:
                                 EdgeInsets.all(screenAwareSize(10.0, context)),
                             child: Center(
-                              child: Text("${height} cm"),
+                              child: Text("$height cm"),
                             )),
                       ),
                     ],
                   ),
                   GestureDetector(
                     onTap: () {
+                      saveIntData("height", height!);
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => HeightPage()),
+                        MaterialPageRoute(
+                            builder: (context) => const ResultPage()),
                       );
                     },
                     child: Container(
@@ -70,7 +74,7 @@ class _HeightPageState extends State<HeightPage> {
                       child: Padding(
                         padding: EdgeInsets.all(screenAwareSize(10.0, context)),
                         child: const Text(
-                          "Calculate BMI",
+                          "Next",
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,

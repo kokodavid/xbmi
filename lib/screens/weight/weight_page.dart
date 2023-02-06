@@ -1,6 +1,7 @@
 import 'package:bmiapp/screens/height/height_page.dart';
 import 'package:bmiapp/screens/weight/weight_card.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utlis/widget_utils.dart';
 
@@ -57,10 +58,18 @@ class _WeightPageState extends State<WeightPage> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HeightPage()),
-                    );
+                    if (weight != null) {
+                      setState(() {
+                        saveIntData("weight", weight!);
+                      });
+                      
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HeightPage()),
+                      );
+                    } else {
+                      showToast(context);
+                    }
                   },
                   child: Container(
                     decoration: BoxDecoration(

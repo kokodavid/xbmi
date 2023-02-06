@@ -1,6 +1,7 @@
 import 'package:bmiapp/screens/gender/gender.dart';
 import 'package:bmiapp/screens/weight/weight_page.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utlis/widget_utils.dart';
 import '../input_summary_card.dart';
@@ -46,13 +47,14 @@ class _GenderPageState extends State<GenderPage> {
                                 margin: EdgeInsets.all(
                                     screenAwareSize(10.0, context)),
                                 child: Center(
-                                  child: _genderText(),
+                                  child: Text(_genderText()),
                                 )),
                           ),
                         ],
                       ),
                       GestureDetector(
                         onTap: () {
+                          saveStringData("gender",_genderText());
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -87,11 +89,11 @@ class _GenderPageState extends State<GenderPage> {
     );
   }
 
-  Widget _genderText() {
+   _genderText() {
     String genderText = gender == Gender.other
         ? 'Other'
         : (gender == Gender.male ? 'Male' : 'Female');
-    return _text(genderText);
+    return genderText;
   }
 
   Widget _text(String text) {
@@ -104,4 +106,6 @@ class _GenderPageState extends State<GenderPage> {
       textAlign: TextAlign.center,
     );
   }
+
+ 
 }
