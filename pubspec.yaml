@@ -40,6 +40,8 @@ dependencies:
   persistent_bottom_nav_bar: any
   shared_preferences: ^2.0.17
   provider: ^6.0.5
+  flutter_secure_storage: ^7.0.1
+  syncfusion_flutter_gauges: ^20.4.48
 
 dev_dependencies:
   flutter_test:
