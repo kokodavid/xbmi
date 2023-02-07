@@ -100,10 +100,11 @@ class _ResultPageState extends State<ResultPage> {
               log(result.toString());
             },
             child: Container(
+              margin: const EdgeInsets.only(top: 15),
               decoration: BoxDecoration(
                   color: Colors.blue, borderRadius: BorderRadius.circular(10)),
               child: Padding(
-                padding: EdgeInsets.all(screenAwareSize(10.0, context)),
+                padding: EdgeInsets.all(screenAwareSize(15.0, context)),
                 child: const Text(
                   "Calculate BMI",
                   style: TextStyle(
@@ -114,8 +115,15 @@ class _ResultPageState extends State<ResultPage> {
               ),
             ),
           ),
-          Container(
-            child: _textResult("${result.toString()} KG/m2"),
+          SizedBox(
+            height: 150,
+            width: 150,
+            child: FittedBox(
+              fit: BoxFit.contain,
+              child: result == null
+                  ? Container()
+                  : _textResult("${result.toString()} KG/m2"),
+            ),
           )
         ],
       ),
@@ -128,9 +136,9 @@ class _ResultPageState extends State<ResultPage> {
     return result;
   }
 
-  Widget _text(String text) {
+  Widget _text(String? text) {
     return Text(
-      text,
+      text!,
       style: const TextStyle(
         color: Colors.black,
         fontSize: 26.0,
