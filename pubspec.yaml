@@ -42,6 +42,7 @@ dependencies:
   provider: ^6.0.5
   flutter_secure_storage: ^7.0.1
   syncfusion_flutter_gauges: ^20.4.48
+  google_mobile_ads: ^2.3.0
 
 dev_dependencies:
   flutter_test:

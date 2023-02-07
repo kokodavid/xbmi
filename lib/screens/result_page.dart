@@ -117,96 +117,98 @@ class _ResultPageState extends State<ResultPage> {
               ),
             ),
           ),
-         result == null ? Container(): Column(
-            children: [
-              Center(
-              child: SfRadialGauge(
-            axes: <RadialAxis>[
-              RadialAxis(
-                  showLabels: false,
-                  showAxisLine: false,
-                  showTicks: true,
-                  minimum: 12,
-                  maximum: 48,
-                  ranges: <GaugeRange>[
-                    GaugeRange(
-                        startValue: 12,
-                        endValue: 18.5,
-                        color: Colors.blue,
-                        label: 'Under\nweight\n<18.5',
-                        sizeUnit: GaugeSizeUnit.factor,
-                        labelStyle: const GaugeTextStyle(
-                            fontFamily: 'Times', fontSize: 16),
-                        startWidth: 0.65,
-                        endWidth: 0.65),
-                    GaugeRange(
-                      startValue: 18.5,
-                      endValue: 24.9,
-                      color: Colors.green,
-                      label: 'Normal\n18.5-24.9',
-                      labelStyle: const GaugeTextStyle(
-                          fontFamily: 'Times', fontSize: 16),
-                      startWidth: 0.65,
-                      endWidth: 0.65,
-                      sizeUnit: GaugeSizeUnit.factor,
-                    ),
-                    GaugeRange(
-                      startValue: 24.9,
-                      endValue: 30,
-                      color: Colors.yellow,
-                      label: 'Over\nweight\n25-29.9',
-                      labelStyle: const GaugeTextStyle(
-                          fontFamily: 'Times', fontSize: 16),
-                      sizeUnit: GaugeSizeUnit.factor,
-                      startWidth: 0.65,
-                      endWidth: 0.65,
-                    ),
-                    GaugeRange(
-                      startValue: 30,
-                      endValue: 39.9,
-                      color: Colors.orange,
-                      label: 'Obese\n30-39.9',
-                      labelStyle: const GaugeTextStyle(
-                          fontFamily: 'Times', fontSize: 16),
-                      sizeUnit: GaugeSizeUnit.factor,
-                      startWidth: 0.65,
-                      endWidth: 0.65,
-                    ),
-                    GaugeRange(
-                      startValue: 39.9,
-                      endValue: 48,
-                      color: Colors.red,
-                      label: 'Morbidly\nObese\n>40',
-                      labelStyle: const GaugeTextStyle(
-                          fontFamily: 'Times', fontSize: 16),
-                      sizeUnit: GaugeSizeUnit.factor,
-                      startWidth: 0.65,
-                      endWidth: 0.65,
-                    ),
+          result == null
+              ? Container()
+              : Column(
+                  children: [
+                    Center(
+                        child: SfRadialGauge(
+                      axes: <RadialAxis>[
+                        RadialAxis(
+                            showLabels: false,
+                            showAxisLine: false,
+                            showTicks: true,
+                            minimum: 12,
+                            maximum: 48,
+                            ranges: <GaugeRange>[
+                              GaugeRange(
+                                  startValue: 12,
+                                  endValue: 18.5,
+                                  color: Colors.blue,
+                                  label: 'Under\nweight\n<18.5',
+                                  sizeUnit: GaugeSizeUnit.factor,
+                                  labelStyle: const GaugeTextStyle(
+                                      fontFamily: 'Times', fontSize: 16),
+                                  startWidth: 0.65,
+                                  endWidth: 0.65),
+                              GaugeRange(
+                                startValue: 18.5,
+                                endValue: 24.9,
+                                color: Colors.green,
+                                label: 'Normal\n18.5-24.9',
+                                labelStyle: const GaugeTextStyle(
+                                    fontFamily: 'Times', fontSize: 16),
+                                startWidth: 0.65,
+                                endWidth: 0.65,
+                                sizeUnit: GaugeSizeUnit.factor,
+                              ),
+                              GaugeRange(
+                                startValue: 24.9,
+                                endValue: 30,
+                                color: Colors.yellow,
+                                label: 'Over\nweight\n25-29.9',
+                                labelStyle: const GaugeTextStyle(
+                                    fontFamily: 'Times', fontSize: 16),
+                                sizeUnit: GaugeSizeUnit.factor,
+                                startWidth: 0.65,
+                                endWidth: 0.65,
+                              ),
+                              GaugeRange(
+                                startValue: 30,
+                                endValue: 39.9,
+                                color: Colors.orange,
+                                label: 'Obese\n30-39.9',
+                                labelStyle: const GaugeTextStyle(
+                                    fontFamily: 'Times', fontSize: 16),
+                                sizeUnit: GaugeSizeUnit.factor,
+                                startWidth: 0.65,
+                                endWidth: 0.65,
+                              ),
+                              GaugeRange(
+                                startValue: 39.9,
+                                endValue: 48,
+                                color: Colors.red,
+                                label: 'Morbidly\nObese\n>40',
+                                labelStyle: const GaugeTextStyle(
+                                    fontFamily: 'Times', fontSize: 16),
+                                sizeUnit: GaugeSizeUnit.factor,
+                                startWidth: 0.65,
+                                endWidth: 0.65,
+                              ),
+                            ],
+                            pointers: <GaugePointer>[
+                              NeedlePointer(
+                                  value: result == null ? 20 : result!)
+                            ])
+                      ],
+                    )),
+                    SizedBox(
+                        height: 50,
+                        child: Column(
+                          children: [
+                            const Text("Your Body Mass Index:"),
+                            result == null
+                                ? Container()
+                                : _textResult("${result.toString()} KG/m2"),
+                          ],
+                        )),
                   ],
-                  pointers: <GaugePointer>[
-                    NeedlePointer(value: result == null ? 20 : result!)
-                  ])
-            ],
-          )),
-          SizedBox(
-              height: 50,
-              child: Column(
-                children: [
-                  const Text("Your Body Mass Index:"),
-                  result == null
-                      ? Container()
-                      : _textResult("${result.toString()} KG/m2"),
-                ],
-              )),
-            ],
-          ),
-          
+                ),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 12),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [ 
+              children: [
                 GestureDetector(
                   onTap: () {
                     clearData();
@@ -227,7 +229,7 @@ class _ResultPageState extends State<ResultPage> {
                             color: Colors.white,
                           ),
                           Text(
-                            "Calculate BMI",
+                            "Calculate again",
                             style: TextStyle(color: Colors.white),
                           )
                         ],
