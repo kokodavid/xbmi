@@ -2,9 +2,11 @@ import 'dart:developer';
 
 import 'package:bmiapp/screens/gender/gender_page.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
+import '../ad_helper.dart';
 import '../utlis/widget_utils.dart';
 import 'dart:math' as math;
 
@@ -16,6 +18,12 @@ class ResultPage extends StatefulWidget {
 }
 
 class _ResultPageState extends State<ResultPage> {
+  static final AdRequest request = AdRequest();
+  int maxFailedLoadAttempts = 3;
+  int life = 0;
+  late BannerAd _bannerAd;
+  late BannerAd _bottomAd;
+  bool _isBannerAdReady = false;
   int? weight;
   int? height;
   String? gender;
@@ -24,6 +32,7 @@ class _ResultPageState extends State<ResultPage> {
   @override
   void initState() {
     getPrefData();
+    _loadBannerAd();
     super.initState();
   }
 
@@ -121,77 +130,80 @@ class _ResultPageState extends State<ResultPage> {
               ? Container()
               : Column(
                   children: [
-                    Center(
-                        child: SfRadialGauge(
-                      axes: <RadialAxis>[
-                        RadialAxis(
-                            showLabels: false,
-                            showAxisLine: false,
-                            showTicks: true,
-                            minimum: 12,
-                            maximum: 48,
-                            ranges: <GaugeRange>[
-                              GaugeRange(
-                                  startValue: 12,
-                                  endValue: 18.5,
-                                  color: Colors.blue,
-                                  label: 'Under\nweight\n<18.5',
-                                  sizeUnit: GaugeSizeUnit.factor,
+                    Container(
+                      height: 300,
+                      child: Center(
+                          child: SfRadialGauge(
+                        axes: <RadialAxis>[
+                          RadialAxis(
+                              showLabels: false,
+                              showAxisLine: false,
+                              showTicks: true,
+                              minimum: 12,
+                              maximum: 48,
+                              ranges: <GaugeRange>[
+                                GaugeRange(
+                                    startValue: 12,
+                                    endValue: 18.5,
+                                    color: Colors.blue,
+                                    label: 'Under\nweight\n<18.5',
+                                    sizeUnit: GaugeSizeUnit.factor,
+                                    labelStyle: const GaugeTextStyle(
+                                        fontFamily: 'Times', fontSize: 16),
+                                    startWidth: 0.65,
+                                    endWidth: 0.65),
+                                GaugeRange(
+                                  startValue: 18.5,
+                                  endValue: 24.9,
+                                  color: Colors.green,
+                                  label: 'Normal\n18.5-24.9',
                                   labelStyle: const GaugeTextStyle(
                                       fontFamily: 'Times', fontSize: 16),
                                   startWidth: 0.65,
-                                  endWidth: 0.65),
-                              GaugeRange(
-                                startValue: 18.5,
-                                endValue: 24.9,
-                                color: Colors.green,
-                                label: 'Normal\n18.5-24.9',
-                                labelStyle: const GaugeTextStyle(
-                                    fontFamily: 'Times', fontSize: 16),
-                                startWidth: 0.65,
-                                endWidth: 0.65,
-                                sizeUnit: GaugeSizeUnit.factor,
-                              ),
-                              GaugeRange(
-                                startValue: 24.9,
-                                endValue: 30,
-                                color: Colors.yellow,
-                                label: 'Over\nweight\n25-29.9',
-                                labelStyle: const GaugeTextStyle(
-                                    fontFamily: 'Times', fontSize: 16),
-                                sizeUnit: GaugeSizeUnit.factor,
-                                startWidth: 0.65,
-                                endWidth: 0.65,
-                              ),
-                              GaugeRange(
-                                startValue: 30,
-                                endValue: 39.9,
-                                color: Colors.orange,
-                                label: 'Obese\n30-39.9',
-                                labelStyle: const GaugeTextStyle(
-                                    fontFamily: 'Times', fontSize: 16),
-                                sizeUnit: GaugeSizeUnit.factor,
-                                startWidth: 0.65,
-                                endWidth: 0.65,
-                              ),
-                              GaugeRange(
-                                startValue: 39.9,
-                                endValue: 48,
-                                color: Colors.red,
-                                label: 'Morbidly\nObese\n>40',
-                                labelStyle: const GaugeTextStyle(
-                                    fontFamily: 'Times', fontSize: 16),
-                                sizeUnit: GaugeSizeUnit.factor,
-                                startWidth: 0.65,
-                                endWidth: 0.65,
-                              ),
-                            ],
-                            pointers: <GaugePointer>[
-                              NeedlePointer(
-                                  value: result == null ? 20 : result!)
-                            ])
-                      ],
-                    )),
+                                  endWidth: 0.65,
+                                  sizeUnit: GaugeSizeUnit.factor,
+                                ),
+                                GaugeRange(
+                                  startValue: 24.9,
+                                  endValue: 30,
+                                  color: Colors.yellow,
+                                  label: 'Over\nweight\n25-29.9',
+                                  labelStyle: const GaugeTextStyle(
+                                      fontFamily: 'Times', fontSize: 16),
+                                  sizeUnit: GaugeSizeUnit.factor,
+                                  startWidth: 0.65,
+                                  endWidth: 0.65,
+                                ),
+                                GaugeRange(
+                                  startValue: 30,
+                                  endValue: 39.9,
+                                  color: Colors.orange,
+                                  label: 'Obese\n30-39.9',
+                                  labelStyle: const GaugeTextStyle(
+                                      fontFamily: 'Times', fontSize: 16),
+                                  sizeUnit: GaugeSizeUnit.factor,
+                                  startWidth: 0.65,
+                                  endWidth: 0.65,
+                                ),
+                                GaugeRange(
+                                  startValue: 39.9,
+                                  endValue: 48,
+                                  color: Colors.red,
+                                  label: 'Morbidly\nObese\n>40',
+                                  labelStyle: const GaugeTextStyle(
+                                      fontFamily: 'Times', fontSize: 16),
+                                  sizeUnit: GaugeSizeUnit.factor,
+                                  startWidth: 0.65,
+                                  endWidth: 0.65,
+                                ),
+                              ],
+                              pointers: <GaugePointer>[
+                                NeedlePointer(
+                                    value: result == null ? 20 : result!)
+                              ])
+                        ],
+                      )),
+                    ),
                     SizedBox(
                         height: 50,
                         child: Column(
@@ -257,7 +269,16 @@ class _ResultPageState extends State<ResultPage> {
                 ),
               ],
             ),
-          )
+          ),
+          if (_isBannerAdReady)
+            Align(
+              alignment: Alignment.topCenter,
+              child: Container(
+                width: _bottomAd.size.width.toDouble(),
+                height: _bottomAd.size.height.toDouble(),
+                child: AdWidget(ad: _bottomAd),
+              ),
+            ),
         ],
       ),
     ));
@@ -267,6 +288,47 @@ class _ResultPageState extends State<ResultPage> {
     double calculate = weight / math.pow(height / 100, 2);
     double result = double.parse(calculate.toStringAsFixed(2));
     return result;
+  }
+
+  void _loadBannerAd() {
+    _bannerAd = BannerAd(
+      adUnitId: AdHelper.bannerAdUnitId,
+      request: const AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          setState(() {
+            _isBannerAdReady = true;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          print("ERROR =>>>> ${err.message}");
+          _isBannerAdReady = false;
+          ad.dispose();
+        },
+      ),
+    );
+
+    _bottomAd = BannerAd(
+      adUnitId: AdHelper.bannerAdUnitId,
+      request: const AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          setState(() {
+            _isBannerAdReady = true;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          print("ERROR =>>>> ${err.message}");
+          _isBannerAdReady = false;
+          ad.dispose();
+        },
+      ),
+    );
+
+    _bannerAd.load();
+    _bottomAd.load();
   }
 
   Widget _text(String? text) {

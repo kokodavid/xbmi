@@ -6,7 +6,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../ad_helper.dart';
 import '../../utlis/widget_utils.dart';
-import '../input_summary_card.dart';
 import 'gender_card.dart';
 
 class GenderPage extends StatefulWidget {
@@ -22,6 +21,7 @@ class _GenderPageState extends State<GenderPage> {
   int maxFailedLoadAttempts = 3;
   int life = 0;
   late BannerAd _bannerAd;
+  late BannerAd _bottomAd;
   bool _isBannerAdReady = false;
 
   @override
@@ -40,27 +40,28 @@ class _GenderPageState extends State<GenderPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                GenderCard(
-                  initialGender: gender,
-                  onChanged: (val) => setState(() => gender = val),
+                if (_isBannerAdReady)
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: Container(
+                      width: _bannerAd.size.width.toDouble(),
+                      height: _bannerAd.size.height.toDouble(),
+                      child: AdWidget(ad: _bannerAd),
+                    ),
+                  ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                  child: GenderCard(
+                    initialGender: gender,
+                    onChanged: (val) => setState(() => gender = val),
+                  ),
                 ),
                 Container(
                   margin: EdgeInsets.all(screenAwareSize(15.0, context)),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      if (_isBannerAdReady)
-                        Align(
-                          alignment: Alignment.topCenter,
-                          child: Container(
-                            width: _bannerAd.size.width.toDouble(),
-                            height: _bannerAd.size.height.toDouble(),
-                            child: AdWidget(ad: _bannerAd),
-                          ),
-                        ),
                       Column(
                         children: [
                           const Text("Selected Gender:"),
@@ -100,18 +101,27 @@ class _GenderPageState extends State<GenderPage> {
                           ),
                         ),
                       ),
-                      if (_isBannerAdReady)
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Container(
-                            width: _bannerAd.size.width.toDouble(),
-                            height: _bannerAd.size.height.toDouble(),
-                            child: AdWidget(ad: _bannerAd),
-                          ),
-                        ),
+                      // if (_isBannerAdReady)
+                      //   Align(
+                      //     alignment: Alignment.bottomCenter,
+                      //     child: Container(
+                      //       width: _bannerAd.size.width.toDouble(),
+                      //       height: _bannerAd.size.height.toDouble(),
+                      //       child: AdWidget(ad: _bannerAd),
+                      //     ),
+                      //   ),
                     ],
                   ),
-                )
+                ),
+                if (_isBannerAdReady)
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: Container(
+                      width: _bottomAd.size.width.toDouble(),
+                      height: _bottomAd.size.height.toDouble(),
+                      child: AdWidget(ad: _bottomAd),
+                    ),
+                  ),
               ],
             )
           ],
@@ -150,6 +160,25 @@ class _GenderPageState extends State<GenderPage> {
           });
         },
         onAdFailedToLoad: (ad, err) {
+          print("ERROR =>>>> ${err.message}");
+          _isBannerAdReady = false;
+          ad.dispose();
+        },
+      ),
+    );
+
+    _bottomAd = BannerAd(
+      adUnitId: AdHelper.bannerAdUnitId,
+      request: const AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          setState(() {
+            _isBannerAdReady = true;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          print("ERROR =>>>> ${err.message}");
           _isBannerAdReady = false;
           ad.dispose();
         },
@@ -157,5 +186,6 @@ class _GenderPageState extends State<GenderPage> {
     );
 
     _bannerAd.load();
+    _bottomAd.load();
   }
 }

@@ -1,9 +1,12 @@
 import 'package:bmiapp/screens/height/height_card.dart';
 import 'package:bmiapp/screens/result_page.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../ad_helper.dart';
 import '../../utlis/widget_utils.dart';
+import '../gender/gender.dart';
 
 class HeightPage extends StatefulWidget {
   HeightPage({super.key});
@@ -15,11 +18,20 @@ class HeightPage extends StatefulWidget {
 }
 
 class _HeightPageState extends State<HeightPage> {
+  Gender gender = Gender.other;
+  static final AdRequest request = AdRequest();
+  int maxFailedLoadAttempts = 3;
+  int life = 0;
+    late BannerAd _bannerAd;
+  late BannerAd _bottomAd;
+  bool _isBannerAdReady = false;
+
   int? height;
 
   @override
   void initState() {
     height = widget.initialHeight ?? 170;
+    _loadBannerAd();
     super.initState();
   }
 
@@ -32,6 +44,15 @@ class _HeightPageState extends State<HeightPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            if (_isBannerAdReady)
+              Align(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  width: _bannerAd.size.width.toDouble(),
+                  height: _bannerAd.size.height.toDouble(),
+                  child: AdWidget(ad: _bannerAd),
+                ),
+              ),
             SizedBox(
                 height: 390,
                 child: HeightCard(
@@ -85,10 +106,60 @@ class _HeightPageState extends State<HeightPage> {
                   )
                 ],
               ),
-            )
+            ),
+            if (_isBannerAdReady)
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: Container(
+                      width: _bottomAd.size.width.toDouble(),
+                      height: _bottomAd.size.height.toDouble(),
+                      child: AdWidget(ad: _bottomAd),
+                    ),
+                  ),
           ],
         ),
       ),
     );
+  }
+
+  void _loadBannerAd() {
+    _bannerAd = BannerAd(
+      adUnitId: AdHelper.bannerAdUnitId,
+      request: const AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          setState(() {
+            _isBannerAdReady = true;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          print("ERROR =>>>> ${err.message}");
+          _isBannerAdReady = false;
+          ad.dispose();
+        },
+      ),
+    );
+
+    _bottomAd = BannerAd(
+      adUnitId: AdHelper.bannerAdUnitId,
+      request: const AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          setState(() {
+            _isBannerAdReady = true;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          print("ERROR =>>>> ${err.message}");
+          _isBannerAdReady = false;
+          ad.dispose();
+        },
+      ),
+    );
+
+    _bannerAd.load();
+    _bottomAd.load();
   }
 }
