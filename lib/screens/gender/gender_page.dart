@@ -1,8 +1,10 @@
 import 'package:bmiapp/screens/gender/gender.dart';
 import 'package:bmiapp/screens/weight/weight_page.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../ad_helper.dart';
 import '../../utlis/widget_utils.dart';
 import '../input_summary_card.dart';
 import 'gender_card.dart';
@@ -16,6 +18,17 @@ class GenderPage extends StatefulWidget {
 
 class _GenderPageState extends State<GenderPage> {
   Gender gender = Gender.other;
+  static final AdRequest request = AdRequest();
+  int maxFailedLoadAttempts = 3;
+  int life = 0;
+  late BannerAd _bannerAd;
+  bool _isBannerAdReady = false;
+
+  @override
+  void initState() {
+    _loadBannerAd();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +52,18 @@ class _GenderPageState extends State<GenderPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      if (_isBannerAdReady)
+                        Align(
+                          alignment: Alignment.topCenter,
+                          child: Container(
+                            width: _bannerAd.size.width.toDouble(),
+                            height: _bannerAd.size.height.toDouble(),
+                            child: AdWidget(ad: _bannerAd),
+                          ),
+                        ),
                       Column(
                         children: [
-                          Text("Selected Gender:"),
+                          const Text("Selected Gender:"),
                           Card(
                             child: Container(
                                 margin: EdgeInsets.all(
@@ -54,7 +76,7 @@ class _GenderPageState extends State<GenderPage> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          saveStringData("gender",_genderText());
+                          saveStringData("gender", _genderText());
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -77,7 +99,16 @@ class _GenderPageState extends State<GenderPage> {
                             ),
                           ),
                         ),
-                      )
+                      ),
+                      if (_isBannerAdReady)
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Container(
+                            width: _bannerAd.size.width.toDouble(),
+                            height: _bannerAd.size.height.toDouble(),
+                            child: AdWidget(ad: _bannerAd),
+                          ),
+                        ),
                     ],
                   ),
                 )
@@ -89,7 +120,7 @@ class _GenderPageState extends State<GenderPage> {
     );
   }
 
-   _genderText() {
+  _genderText() {
     String genderText = gender == Gender.other
         ? 'Other'
         : (gender == Gender.male ? 'Male' : 'Female');
@@ -107,5 +138,24 @@ class _GenderPageState extends State<GenderPage> {
     );
   }
 
- 
+  void _loadBannerAd() {
+    _bannerAd = BannerAd(
+      adUnitId: AdHelper.bannerAdUnitId,
+      request: const AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          setState(() {
+            _isBannerAdReady = true;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          _isBannerAdReady = false;
+          ad.dispose();
+        },
+      ),
+    );
+
+    _bannerAd.load();
+  }
 }
