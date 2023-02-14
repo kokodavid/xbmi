@@ -124,7 +124,7 @@ class _HeightPageState extends State<HeightPage> {
 
   void _loadBannerAd() {
     _bannerAd = BannerAd(
-      adUnitId: AdHelper.bannerAdUnitId,
+      adUnitId: "ca-app-pub-2470974563764561/2550890536",
       request: const AdRequest(),
       size: AdSize.banner,
       listener: BannerAdListener(
@@ -142,7 +142,7 @@ class _HeightPageState extends State<HeightPage> {
     );
 
     _bottomAd = BannerAd(
-      adUnitId: AdHelper.bannerAdUnitId,
+      adUnitId: "ca-app-pub-2470974563764561/1237808861",
       request: const AdRequest(),
       size: AdSize.banner,
       listener: BannerAdListener(

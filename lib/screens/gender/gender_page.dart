@@ -150,7 +150,7 @@ class _GenderPageState extends State<GenderPage> {
 
   void _loadBannerAd() {
     _bannerAd = BannerAd(
-      adUnitId: AdHelper.bannerAdUnitId,
+      adUnitId: "ca-app-pub-2470974563764561/6522695644",
       request: const AdRequest(),
       size: AdSize.banner,
       listener: BannerAdListener(
@@ -168,7 +168,7 @@ class _GenderPageState extends State<GenderPage> {
     );
 
     _bottomAd = BannerAd(
-      adUnitId: AdHelper.bannerAdUnitId,
+      adUnitId: "ca-app-pub-2470974563764561/1812523932",
       request: const AdRequest(),
       size: AdSize.banner,
       listener: BannerAdListener(

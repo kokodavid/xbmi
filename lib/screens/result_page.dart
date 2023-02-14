@@ -292,7 +292,7 @@ class _ResultPageState extends State<ResultPage> {
 
   void _loadBannerAd() {
     _bannerAd = BannerAd(
-      adUnitId: AdHelper.bannerAdUnitId,
+      adUnitId: "ca-app-pub-2470974563764561/1227018819",
       request: const AdRequest(),
       size: AdSize.banner,
       listener: BannerAdListener(

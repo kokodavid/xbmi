@@ -127,7 +127,7 @@ class _WeightPageState extends State<WeightPage> {
 
   void _loadBannerAd() {
     _bannerAd = BannerAd(
-      adUnitId: AdHelper.bannerAdUnitId,
+      adUnitId: "ca-app-pub-2470974563764561/5368625560",
       request: const AdRequest(),
       size: AdSize.banner,
       listener: BannerAdListener(
@@ -145,7 +145,7 @@ class _WeightPageState extends State<WeightPage> {
     );
 
     _bottomAd = BannerAd(
-      adUnitId: AdHelper.bannerAdUnitId,
+      adUnitId: "ca-app-pub-2470974563764561/6490135546",
       request: const AdRequest(),
       size: AdSize.banner,
       listener: BannerAdListener(
