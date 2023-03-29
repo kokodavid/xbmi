@@ -310,7 +310,7 @@ class _ResultPageState extends State<ResultPage> {
     );
 
     _bottomAd = BannerAd(
-      adUnitId: AdHelper.bannerAdUnitId,
+      adUnitId: "ca-app-pub-2470974563764561/1227018819",
       request: const AdRequest(),
       size: AdSize.banner,
       listener: BannerAdListener(
